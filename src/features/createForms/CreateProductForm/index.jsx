@@ -12,13 +12,13 @@ export const CreateProductForm = () => {
         const handleSubmit = (e) => {
             e.preventDefault();
             const data = {
+                backgroundImage: image,
                 productImage: image,
                 name: name,
                 description: desc,
                 categoryId: Number(categoryId),
                 itemIds: [1, 2, 3, 4]
             };
-            console.log("Product Data:", data);
           
             createCategory(data)
           };
@@ -53,9 +53,9 @@ export const CreateProductForm = () => {
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
                   <InputFile title="file" value={image} onChange={onFileChange} />
-                        <Input title="url" value={name} onChange={(e) => setName(e.target.value)} />
-                        <Input title="url" value={desc} onChange={(e) => setDesc(e.target.value)} />
-                        <Input title="url" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} />
+                        <Input title="name" value={name} onChange={(e) => setName(e.target.value)} />
+                        <Input title="desc" value={desc} onChange={(e) => setDesc(e.target.value)} />
+                        <Input title="category" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} />
                         <div className="form-control mt-6">
                         <button type="submit" className="btn btn-primary">
                             Создать продукт
