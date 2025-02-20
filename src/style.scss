@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.cdnfonts.com/css/inter');
+@import url('https://fonts.cdnfonts.com/css/manrope');
+
+html {
+  font-size: 10px;
+  background: rgba(16, 16, 16, 1);
+}
+
+span {
+  line-height: normal
+}
+
+.font-manrope {
+  font-family: 'Manrope', sans-serif;
+}
+
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.headerShadow {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+button, a {
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+    &:disabled {
+      opacity: 0.5;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+    &:active {
+      opacity: 0.6;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
