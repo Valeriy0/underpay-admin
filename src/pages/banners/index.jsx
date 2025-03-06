@@ -1,68 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BaseLayout } from "../../layouts/BaseLayout";
-import { Input } from "../../components/Input";
-import { InputFile } from "../../components/InputFile";
-import { Toggle } from "../../components/Toggle";
 import { BannersRepository } from "../../connectors/repositories/banners";
+import { useRequest } from "../../helpers/hooks/useRequest";
+import { CreateAndEditBannerModal } from "../../features/Banners/CreateAndEditBannerModal/index.jsx";
 
 
 export const Banners = () => {
-    const [bannerFile, setBannerFile] = useState(null);
-    const [url, setUrl] = useState();
-    const [isActive, setIsActive] = useState(false);
+    const [dataForEdit, setDataForEdit] = useState(null);
+    const { data, call, isLoading } = useRequest(BannersRepository.getBanners);
+
+    const { data: dataDelete, call: callDelete, isLoading: isLoadingDelete } = useRequest(BannersRepository.deleteBanner);
+
+    useEffect(() => {
+      call();
+    }, [])
+
+    useEffect(() => {
+      if (dataDelete?.success) {
+        call();
+      }
+    }, [dataDelete]);
+
+
+    const openCreateBannerModal = () => {
+      document.getElementById('createAndEditBanner_modal').showModal();
+    }
+
+    const openEditBannerModal = (bannerInfo) => {
+      setDataForEdit(bannerInfo);
+      document.getElementById('createAndEditBanner_modal').showModal();
+    }
     
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const bannerData = {
-            bannerFile: bannerFile,
-            url: url,
-            isActive: isActive,
-        };
-        console.log("Product Data:", bannerData);
-      
-        uploadBanner(bannerData)
-      };
-
-      const uploadBanner = async (bannerData) => {
-        await BannersRepository.createBanner(bannerData)
-          .then(() => {
-            console.log('success')
-          })
-          .catch((e) => console.log(e));
-      };
-
-      const onFileChange = (e) => {
-        e.preventDefault();
-        if (e.target.files[0]) {
-          const [file] = e.target.files;
-          const reg = /(.*?)\.(jpg|jpeg|png)$/;
-
-    
-          if (!file?.name?.match(reg)) {
-            return console.log('Error: unsupported file format');
-          }
-
-          if (2000000 && file.size && file.size > 2000000) {
-            return console.log('bag size');
-          }
-    
-           return setBannerFile(file);
-        }
-      };
-
     return (
-        <BaseLayout className="pt-[3.2rem] pb-[4.8rem] px-[0.8rem] space-y-[1.6rem] overflow-y-auto invisible-scrollbar">
-           Create banner
-           <form onSubmit={handleSubmit} className="space-y-4">
-                <InputFile title="file" value={bannerFile} onChange={onFileChange} />
-                <Input title="url" value={url} onChange={(e) => setUrl(e.target.value)} />
-                <Toggle isToggled={isActive} handleToggle={() => setIsActive((prev) => !prev)} />
-                <div className="form-control mt-6">
-                <button type="submit" className="btn btn-primary">
-                    Создать баннер
-                </button>
-                </div>
-           </form>
+        <BaseLayout className="space-y-[1.6rem] overflow-y-auto invisible-scrollbar">
+          <div className="flex flex-col justify-start space-y-10 w-full">
+          <h1 class="text-3xl font-bold">Баннеры</h1>
+            <div className="grid grid-cols-5 w-full gap-5">
+              {data?.data?.banners.map((item, itemIndex) => {
+                return (
+                  <div className="relative p-[1rem] rounded-[1rem] bg-white-100 w-[16rem] h-[26rem] flex flex-col items-center justify-start space-y-2" key={itemIndex}>
+                    <div className="flex flex-col flex-1 space-y-2 w-full">
+                      <img className="bg-white-100 rounded-[0.8rem] w-full h-[15rem] max-w-full" src={item?.bannerImageUrl} alt="" />
+                      <div className="!mt-4 flex items-center justify-start">
+                        <span>Баннер #{item?.id}</span>
+                      </div>
+                      <div className="flex items-center justify-start w-full space-x-2">
+                        <span>Показывается:</span><span>{item?.isActive ? 'Да': 'Нет'}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between w-full space-x-2">
+                      <button onClick={() => openEditBannerModal(item)} class="btn btn-soft btn-info flex-1">Изменить</button>
+                      <button onClick={() => callDelete([item?.id])} class="btn btn-soft btn-error">Удалить</button>
+                    </div>
+                  </div>
+                )
+              })}
+              <button onClick={() => openCreateBannerModal()} className="rounded-[1rem] bg-white-100 w-[16rem] h-[26rem] flex items-center justify-center">
+                <span className="text-5xl text-white">+</span>
+              </button>
+            </div>
+          </div>
+           
+           <CreateAndEditBannerModal updateBannerList={() => call()} {...dataForEdit} />
         </BaseLayout>
     )
 }
