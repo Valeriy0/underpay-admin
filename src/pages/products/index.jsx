@@ -3,10 +3,18 @@ import { BaseLayout } from "../../layouts/BaseLayout";
 import { useRequest } from "../../helpers/hooks/useRequest";
 import { ProductsRepository } from "../../connectors/repositories/product";
 import { CreateAndEditProductModal } from "../../features/Products/CreateAndEditProductModal";
+import { WithdrawalsRepository } from "../../connectors/repositories/withdrawals";
 
 export const ProductsPage = () => {
     const [dataForEdit, setDataForEdit] = useState(null);
     const { call, data } = useRequest(ProductsRepository.getProducts);
+
+    const { call: callItems, data: dataItems } = useRequest(WithdrawalsRepository.getItems);
+
+    useEffect(() => {
+        callItems([{ region: 'Russia' }])
+    }, [])
+    
 
     useEffect(() => {
         call();
