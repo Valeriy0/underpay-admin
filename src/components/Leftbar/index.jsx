@@ -15,28 +15,37 @@ const menu = [
         link: '/products',
         name: 'Products',
     },
+    {
+        link: '/items',
+        name: 'Items',
+    },
 ]
 
 export const Leftbar = () => {
     return (
-        <div className="flex flex-col h-full items-start space-y-10 p-[1rem]">
-            <div className="flex items-center justify-start h-[3rem]">
-                <span className="font-bold text-3xl">Underpay</span>
+        <div className="p-4 bg-base-200 h-full">
+            <div className="flex items-center justify-start h-16 w-full px-4 mb-6">
+                <span className="font-bold text-2xl text-primary">Underpay</span>
             </div>
-            <ul className="menu bg-base-200 rounded-box w-56">
-            {menu.map((item, itemIndex) => {
-                return (
-                   <>
+            <ul className="menu menu-lg bg-base-200 rounded-box w-full">
+                {menu.map((item, itemIndex) => (
+                    <li key={itemIndex} className="mb-2">
                         {!!item?.submenu && item?.submenu.length ? (
-                            <Dropdown title={item?.name} submenu={item?.submenu}/>
+                            <Dropdown 
+                                title={item?.name} 
+                                submenu={item?.submenu}
+                            />
                         ) : (
-                            <li><Link to={item?.link}>{item?.name}</Link></li>
+                            <Link 
+                                to={item?.link} 
+                                className="hover:bg-base-300 rounded-lg"
+                            >
+                                {item?.name}
+                            </Link>
                         )}
-                    </>
-                )
-            })}
+                    </li>
+                ))}
             </ul>
-           
         </div>
     )
 }

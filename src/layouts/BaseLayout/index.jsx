@@ -3,10 +3,13 @@ import { Leftbar } from '../../components/Leftbar';
 
 export const BaseLayout = ({ children, className }) => {
   return (
-    <div className="flex items-center justify-center">
-      <div className={`relative bg-mainBg flex items-center justify-center w-screen h-screen w-screen`}>
-        <Leftbar />
-        <div className={`p-[1rem] max-w-[1200px] flex flex-col items-center justify-start h-full w-full overflow-hidden overflow-y-auto invisible-scrollbar ${className}`}>
+    <div className="flex flex-row min-h-screen bg-mainBg">
+      <div className="w-64 min-h-screen">
+        <Leftbar isMobile={false} />
+      </div>
+
+      <div className={`flex-1 p-6 overflow-auto ${className}`}>
+        <div className="max-w-7xl mx-auto space-y-5">
           {children}
         </div>
       </div>

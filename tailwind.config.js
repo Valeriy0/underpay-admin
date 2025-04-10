@@ -8,8 +8,6 @@ module.exports = {
       screens: {
         '2xl': { max: '1900px' },
         xl: { max: '1279px' },
-        lg: { max: '1121px' },
-        sm: { max: '1121px' },
       },
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
@@ -40,8 +38,6 @@ module.exports = {
         'white-800': 'rgba(255,255,255,.8)',
       }
     },
-   
-    
   },
   plugins: [
     require('daisyui'),
