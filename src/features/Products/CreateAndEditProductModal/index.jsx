@@ -6,7 +6,7 @@ import { ProductsRepository } from "../../../connectors/repositories/product";
 import { CategoriesRepository } from "../../../connectors/repositories/categories";
 import { useRequest } from "../../../helpers/hooks/useRequest";
 
-export const CreateAndEditProductModal = ({ updateProductList, id, name, description, category, productImageUrl, backgroundImageUrl, items, mooGoldItems, onClose }) => {
+export const CreateAndEditProductModal = ({ updateProductList, id, name, description, category, productImageUrl, backgroundImageUrl, items, mooGoldItems, isPopular, onClose }) => {
   const [bgImage, setBgImage] = useState(null);   
   const [image, setImage] = useState(null);
   const [nameForm, setNameForm] = useState('');
@@ -17,6 +17,7 @@ export const CreateAndEditProductModal = ({ updateProductList, id, name, descrip
   const [selectedItems, setSelectedItems] = useState([]);
   const [currentBgImageUrl, setCurrentBgImageUrl] = useState(backgroundImageUrl);
   const [currentProductImageUrl, setCurrentProductImageUrl] = useState(productImageUrl);
+  const [isPopularProduct, setisPopularProduct] = useState(false);
   
   // Получаем список категорий из API
   const { data: categoriesData, call: getCategories } = useRequest(CategoriesRepository.getCategories);
@@ -38,6 +39,7 @@ export const CreateAndEditProductModal = ({ updateProductList, id, name, descrip
       setCurrentBgImageUrl(backgroundImageUrl);
       setCurrentProductImageUrl(productImageUrl);
       setSelectedItems(mooGoldItems?.map(item => item.id) || []);
+      setisPopularProduct(isPopular || false);
     } else {
       // Сброс состояний при создании нового продукта
       setNameForm('');
@@ -50,8 +52,9 @@ export const CreateAndEditProductModal = ({ updateProductList, id, name, descrip
       setCurrentBgImageUrl(null);
       setCurrentProductImageUrl(null);
       setSelectedItems([]);
+      setisPopularProduct(false);
     }
-  }, [id, name, description, category, backgroundImageUrl, productImageUrl, mooGoldItems]);
+  }, [id, name, description, category, backgroundImageUrl, productImageUrl, mooGoldItems, isPopular]);
             
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -76,6 +79,9 @@ export const CreateAndEditProductModal = ({ updateProductList, id, name, descrip
     }
     if (selectedItems.length > 0) {
       data.itemIds = selectedItems;
+    }
+    if (id ? isPopularProduct !== isPopular : true) {
+      data.isPopular = isPopularProduct;
     }
 
     console.log('Отправляемые данные:', data);
@@ -169,6 +175,7 @@ export const CreateAndEditProductModal = ({ updateProductList, id, name, descrip
                 setCurrentBgImageUrl(null);
                 setCurrentProductImageUrl(null);
                 setSelectedItems([]);
+                setisPopularProduct(false);
                 onClose?.();
               }}
             >✕</button>
@@ -288,6 +295,18 @@ export const CreateAndEditProductModal = ({ updateProductList, id, name, descrip
                     placeholder="Заполните описание продукта"
                   />
                 </fieldset>
+
+                <div className="form-control">
+                  <label className="label cursor-pointer justify-start gap-2">
+                    <input 
+                      type="checkbox" 
+                      className="toggle toggle-primary" 
+                      checked={isPopularProduct}
+                      onChange={(e) => setisPopularProduct(e.target.checked)}
+                    />
+                    <span className="label-text">Популярный продукт</span>
+                  </label>
+                </div>
               </div>
 
               <div className="space-y-4">

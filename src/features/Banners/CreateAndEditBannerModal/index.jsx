@@ -39,7 +39,7 @@ export const CreateAndEditBannerModal = ({ updateBannerList, id, bannerImageUrl,
     const handleSubmit = (e) => {
         e.preventDefault();
         const bannerData = {
-            bannerFile: bannerFile,
+            image: bannerFile,
             url: urlOnForm,
             isActive: isActiveOnForm,
         };

@@ -147,6 +147,7 @@ export const ProductsPage = () => {
                                     <td>
                                         <label className="swap swap-flip">
                                             <input 
+                                                className="pointer-events-none cursor-default"
                                                 type="checkbox" 
                                                 checked={item?.isPopular} 
                                                 onChange={() => handlePopularToggle(item)}

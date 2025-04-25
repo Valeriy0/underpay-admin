@@ -83,7 +83,7 @@ export const Banners = () => {
                       <div className="relative w-full h-48 overflow-hidden rounded-xl">
                         <img 
                           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
-                          src={item?.bannerImageUrl} 
+                          src={item?.imageUrl} 
                           alt={`Баннер #${item?.id}`} 
                         />
                         <div className="absolute top-2 right-2">

@@ -47,7 +47,7 @@ export const CreateAndEditCategoryModal = ({ updateCategoryList, id, name, isMai
         const data = {};
         
         if (iconForm !== null) {
-          data.imageUrl = iconForm;
+          data.image = iconForm;
         }
         
         if (categoryId) {
@@ -59,7 +59,7 @@ export const CreateAndEditCategoryModal = ({ updateCategoryList, id, name, isMai
           }
           updateCategory(data);
         } else {
-          data.imageUrl = iconForm;
+          data.image = iconForm;
           data.name = categoryName;
           data.isMain = isOnMainPage;
           createCategory(data);
