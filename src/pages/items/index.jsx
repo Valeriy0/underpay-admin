@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { BaseLayout } from "../../layouts/BaseLayout";
 import { useRequest } from "../../helpers/hooks/useRequest";
-import { WithdrawalsRepository } from "../../connectors/repositories/withdrawals";
+import { ItemsRepository } from "../../connectors/repositories/items";
 import { EditItemModal } from "../../features/Items/EditItemModal";
 
 export const ItemsPage = () => {
     const [dataForEdit, setDataForEdit] = useState(null);
-    const { call, data } = useRequest(WithdrawalsRepository.getItems);
+    const { call, data } = useRequest(ItemsRepository.getItems);
 
     useEffect(() => {
-        call([{ region: 'us' }]);
+        call();
     }, []);
 
     // Проверяем, что data существует и является массивом
