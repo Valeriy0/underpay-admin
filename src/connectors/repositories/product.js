@@ -8,4 +8,4 @@ class Repository extends BaseRepository {
   deleteProduct = (id) => requestApi('delete', `${this.path}/${id}`);
 }
 
-export const ProductsRepository = new Repository('/admin/product');
+export const ProductsRepository = new Repository('/admin/products');
