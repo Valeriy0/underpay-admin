@@ -6,4 +6,4 @@ class Repository extends BaseRepository {
   editItem = (id, data) => requestApi('put', `${this.path}/methods/1/items/${id}`, data);
 }
 
-export const ItemsRepository = new Repository('items'); 
+export const ItemsRepository = new Repository('items/admin'); 
